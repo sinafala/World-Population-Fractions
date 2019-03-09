@@ -98,11 +98,12 @@ ggplot(fracs.gg) +
         legend.key = element_rect(size = 4),
         legend.key.size = unit(1.5, 'lines'),
         legend.justification = c(-0.1,1.1),
-        legend.position = c(0,1)) 
+        legend.position = c(0,1)) +
+  ggtitle("Data from World Population Prospects 2017: https://goo.gl/bZQ4vx")
 
 # save the plot
 ggsave("Region Fraction of Global Population by Time.pdf")
-
+ggsave("Region Fraction of Global Population by Time.jpg")
 
 
 
