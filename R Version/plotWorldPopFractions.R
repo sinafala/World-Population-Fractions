@@ -100,6 +100,10 @@ colSums(pops[,-1]) == 2*pops[pops.world,-1]
 # have a look
 pops
 # View(pops)
+# save pops
+save(pops,file="pops.RData")
+# save pops as xlsx
+write.xlsx(pops,file="pops.xlsx")
 
 # calculate the fraction of world population in each region, including the world
 fracs.region <- pops
@@ -117,6 +121,10 @@ colSums(fracs.region[,-1])
 # have a look
 fracs.region
 # View(fracs.region)
+# save fracs.region
+save(fracs.region,file="fracs.RData")
+# save fracs.region as xlsx
+write.xlsx(fracs.region,file="fracs.xlsx")
 
 # transform to long format with columns for region, period, and fraction
 fracs.gg <- melt(fracs.region[,c(1,2:10)],ic=c(region))
