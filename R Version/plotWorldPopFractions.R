@@ -8,8 +8,6 @@ rm(list=ls())
 # List of necessary packages
 list.of.packages <- c(
   'openxlsx'
-  # ,'rJava'
-  # ,'xlsx'
   ,'dplyr'
   ,'ggplot2'
   ,'reshape2'
