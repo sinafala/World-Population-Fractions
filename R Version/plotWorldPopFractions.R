@@ -206,4 +206,25 @@ ggplot(fracs.gg.stack, aes(fill=Region, y=Fraction, x=Year)) +
 ggsave("Region Fraction of Global Population by Time - Stacked Bar.pdf")
 ggsave("Region Fraction of Global Population by Time - Stacked Bar.jpg")
 
+# Shorter stacked bar
+ggplot(fracs.gg.stack, aes(fill=Region, y=Fraction, x=Year)) + 
+  geom_bar(position="fill", stat="identity") +
+  scale_y_continuous(labels=scales::percent_format(accuracy = 1),expand = c(0,0)) +
+  scale_fill_manual(values=region.colors) +
+  theme_bw() + 
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(), 
+  panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+  theme(title = element_text(size=7),
+        axis.text = element_text(size=10),
+        axis.title = element_text(size=10),
+        legend.text = element_text(size=10), 
+        legend.title = element_text(size=10),
+        axis.title.y = element_text(margin = margin(t = 0, r = 5, b = 0, l = 0)),
+        axis.title.x = element_text(margin = margin(t = 10, r = 0, b = 0, l = 0))) +
+  labs(y="Fraction of World Population") +
+  geom_hline(yintercept = seq(0.25,0.75,0.25)) +
+  ggtitle("Data from World Population Prospects 2019: https://bit.ly/2NryzPp")
 
+ggsave("Region Fraction of Global Population by Time - Stacked Bar Short.pdf", height = 4, width = 7)
+ggsave("Region Fraction of Global Population by Time - Stacked Bar Short.jpg", height = 4, width = 7)
+ 
