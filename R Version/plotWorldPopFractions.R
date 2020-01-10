@@ -133,6 +133,7 @@ fracs.gg$Year <- factor(fracs.gg$Year)
 unique(fracs.gg$Region)
 fracs.gg$Region <- factor(fracs.gg$R,levels=c("Africa","China","India","Europe","North America","South America","Other"))
 # have a look
+fracs.gg
 str(fracs.gg)
 # View(fracs.gg)
 
