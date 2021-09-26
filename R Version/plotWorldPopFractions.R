@@ -124,7 +124,7 @@ fracs.region
 # save fracs.region
 save(fracs.region,file="fracs.RData")
 # save fracs.region as xlsx
-write.xlsx(fracs.region,file="fracs.xlsx")
+write.xlsx(fracs.region,file="fracs.xlsx",overwrite=TRUE)
 
 # transform to long format with columns for region, period, and fraction
 fracs.gg <- melt(fracs.region[,c(1,2:10)],ic=c(region))
