@@ -136,7 +136,7 @@ pops <- rbind(pops,region.other)
 colSums(pops[,-1]) == 2*pops[pops.world,-1]
 # have a look
 pops
-# View(pops)
+View(pops)
 # save pops
 save(pops,file="pops.RData")
 # save pops as xlsx
@@ -157,7 +157,7 @@ fracs.region <- fracs.region[-fracs.world,]
 colSums(fracs.region[,-1])
 # have a look
 fracs.region
-# View(fracs.region)
+View(fracs.region)
 # save fracs.region
 save(fracs.region,file="fracs.RData")
 # save fracs.region as xlsx
@@ -189,7 +189,7 @@ region.colors[6] <- "lightblue"
 region.colors[7] <- "darkgreen"
 ggplot(fracs.gg) +
   geom_line(aes(x=Year, y=Fraction, group=Region, colour=Region, size=Region)) +
-  geom_vline(xintercept = 5.2,size=2,colour="white") +
+  geom_vline(xintercept = 5.2, size=1, colour="black", linetype="dotted") +
   # geom_line(aes(x=Year, y=Fraction, group=Region, colour=Region, size=Region)) +
   scale_size_manual(values = c(2.5,1,1,1,1,1,1)) +
   scale_color_manual(values=rev(region.colors)) +
@@ -199,16 +199,21 @@ ggplot(fracs.gg) +
         legend.text = element_text(size=25),
         legend.title = element_text(size=30),
         axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
-        axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0))) +
+        axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)),
+        panel.background = element_rect(fill = "white", colour = "black",size = 2, linetype = "solid"),
+        panel.grid.major = element_line(size = 0.8, linetype = 'solid',colour = "gray"), 
+        panel.grid.minor = element_line(size = 0.2, linetype = 'solid',colour = "gray")
+        ) +
   labs(y="Fraction of World Population") +
   scale_y_continuous(labels=scales::percent_format(accuracy = 1)) +
   theme(legend.key.height=unit(1.5,"line"),
         legend.key.width=unit(2,"line"),
         legend.title=element_text(size=25),
         legend.text=element_text(size =20),
-        legend.key = element_rect(size = 4),
+        legend.key = element_rect(size = 4, fill = "transparent"),
         legend.key.size = unit(1.5, 'lines'),
         legend.justification = c(-0.1,1.1),
+        legend.background = element_rect(fill = "white", colour = "black",size = 0.75, linetype = "solid"),
         legend.position = c(0,1)) +
   ggtitle("Data from World Population Prospects 2022: https://bit.ly/2NryzPp")
 
