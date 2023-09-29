@@ -82,7 +82,7 @@ regions <- c('World','Africa','China','India','Europe','Latin America and the Ca
 filterList <- grepl(paste("^",paste(tolower(regions), collapse="$|^"),"$",sep=""), tolower(estimatesWide$Region))
 
 # periods for population estimates
-estimatePeriods <- c('totalPop.1950','totalPop.1970','totalPop.1990','totalPop.2010','totalPop.2020')
+estimatePeriods <- c('totalPop.1950','totalPop.1960','totalPop.1970','totalPop.1980','totalPop.1990','totalPop.2000','totalPop.2010','totalPop.2020')
 # filter the estimates to include rows corresponding to the world regions and columns for the estimate periods 
 regionEstimates <- filter(estimatesWide, filterList)[,c('Region',estimatePeriods)]
 # remove potential duplicate rows, ignoring region column (differing cases)
@@ -110,7 +110,7 @@ colnames(pops) <- c(colnames(pops)[1],colYears)
 # View(pops)
 # clean up some names
 pops[which(pops[,1]=="Latin America and the Caribbean"),1] <- "South America"
-pops[which(pops[,1]=="Northern America"),1] <- "North America"
+pops[which(pops[,1]=="NORTHERN AMERICA"),1] <- "North America"
 # title case for the region names
 pops[,1] <- str_to_title(pops[,1])
 # transform numbers stored as strings to numeric 
@@ -171,11 +171,11 @@ colnames(fracs.gg) <- c("Region","Year","Fraction")
 fracs.gg$Year <- factor(fracs.gg$Year)
 # factorize and sort regsion variable
 unique(fracs.gg$Region)
-fracs.gg$Region <- factor(fracs.gg$Region,levels=c("Africa","China","India","Europe","Northern America","South America","Other"))
+fracs.gg$Region <- factor(fracs.gg$Region,levels=c("Africa","China","India","Europe","North America","South America","Other"))
 # have a look
 fracs.gg
 str(fracs.gg)
-# View(fracs.gg)
+View(fracs.gg)
 
 # plot
 # Stacked bar version
@@ -189,37 +189,37 @@ region.colors[6] <- "lightblue"
 region.colors[7] <- "darkgreen"
 ggplot(fracs.gg) +
   geom_line(aes(x=Year, y=Fraction, group=Region, colour=Region, size=Region)) +
-  geom_vline(xintercept = 5.2, size=1, colour="black", linetype="dotted") +
+  geom_vline(xintercept = 8.2, size=1, colour="black", linetype="dotted") +
   # geom_line(aes(x=Year, y=Fraction, group=Region, colour=Region, size=Region)) +
   scale_size_manual(values = c(2.5,1,1,1,1,1,1)) +
   scale_color_manual(values=rev(region.colors)) +
   geom_point(aes(x=Year, y=Fraction, group=Region, colour=Region)) +
   theme(axis.text = element_text(size=25),
         axis.title = element_text(size=30),
-        legend.text = element_text(size=25),
-        legend.title = element_text(size=30),
+        axis.text.x = element_text(angle = 90),
         axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
         axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)),
-        panel.background = element_rect(fill = "white", colour = "black",size = 2, linetype = "solid"),
-        panel.grid.major = element_line(size = 0.8, linetype = 'solid',colour = "gray"), 
-        panel.grid.minor = element_line(size = 0.2, linetype = 'solid',colour = "gray")
-        ) +
-  labs(y="Fraction of World Population") +
-  scale_y_continuous(labels=scales::percent_format(accuracy = 1)) +
-  theme(legend.key.height=unit(1.5,"line"),
+        legend.key.height=unit(1.2,"line"),
         legend.key.width=unit(2,"line"),
-        legend.title=element_text(size=25),
-        legend.text=element_text(size =20),
+        legend.title=element_text(size=20),
+        legend.text=element_text(size =16),
         legend.key = element_rect(size = 4, fill = "transparent"),
-        legend.key.size = unit(1.5, 'lines'),
+        legend.key.size = unit(1., 'lines'),
         legend.justification = c(-0.1,1.1),
         legend.background = element_rect(fill = "white", colour = "black",size = 0.75, linetype = "solid"),
-        legend.position = c(0,1)) +
-  ggtitle("Data from World Population Prospects 2022: https://bit.ly/2NryzPp")
+        legend.position = c(0,1),
+        panel.background = element_rect(fill = "white", colour = "black",size = 2, linetype = "solid"),
+        panel.grid.major = element_line(size = 0.8, linetype = 'solid',colour = "gray"), 
+        panel.grid.minor = element_line(size = 0.2, linetype = 'solid',colour = "gray"),
+        aspect.ratio=4/7
+        ) +
+  labs(y="Fraction of World Population") +
+  scale_y_continuous(labels=scales::percent_format(accuracy = 1),limits = c(0,0.4)) +
+  ggtitle("Data from World Population Prospects 2022: https://bit.ly/2NryzPp, 'South America' includes Caribbean")
 
 # save the plot
-ggsave("Region Fraction of Global Population by Time.pdf")
-ggsave("Region Fraction of Global Population by Time.jpg")
+ggsave("Region Fraction of Global Population by Time.pdf", height = 8, width = 14)
+ggsave("Region Fraction of Global Population by Time.jpg", height = 8, width = 14)
 
 # make region an ordered factor
 fracs.gg.stack <- fracs.gg
@@ -235,10 +235,13 @@ ggplot(fracs.gg.stack, aes(fill=Region, y=Fraction, x=Year)) +
   scale_y_continuous(labels=scales::percent_format(accuracy = 1),expand = c(0,0)) +
   scale_fill_manual(values=region.colors) +
   theme_bw() + 
-  theme(panel.border = element_blank(), panel.grid.major = element_blank(), 
-  panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
-  theme(axis.text = element_text(size=15),
+  theme(panel.border = element_blank(), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"),
+        axis.text = element_text(size=15),
         axis.title = element_text(size=20),
+        axis.text.x = element_text(angle = 90),
         legend.text = element_text(size=15),
         legend.title = element_text(size=20),
         axis.title.y = element_text(margin = margin(t = 0, r = 10, b = 0, l = 0)),
@@ -257,11 +260,14 @@ ggplot(fracs.gg.stack, aes(fill=Region, y=Fraction, x=Year)) +
   scale_y_continuous(labels=scales::percent_format(accuracy = 1),expand = c(0,0)) +
   scale_fill_manual(values=region.colors) +
   theme_bw() + 
-  theme(panel.border = element_blank(), panel.grid.major = element_blank(), 
-  panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
-  theme(title = element_text(size=7),
+  theme(panel.border = element_blank(), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"),
+        title = element_text(size=7),
         axis.text = element_text(size=10),
         axis.title = element_text(size=10),
+        axis.text.x = element_text(angle = 90),
         legend.text = element_text(size=10), 
         legend.title = element_text(size=10),
         axis.title.y = element_text(margin = margin(t = 0, r = 5, b = 0, l = 0)),
