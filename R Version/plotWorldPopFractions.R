@@ -55,6 +55,8 @@ popProjections["totalPop"] <- rowSums(popProjections[,ageCols],na.rm=TRUE)
 # save with population totals
 save(popEstimates,file="popEstimates")
 save(popProjections,file="popProjections")
+# load("popEstimates")
+# load("popProjections")
 
 # rename region column
 colnames(popEstimates)[3] <- 'Region'
